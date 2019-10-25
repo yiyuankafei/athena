@@ -13,5 +13,6 @@
   
   <modules>
   	<module>athena-socket</module>
+  	<module>athena-io</module>
   </modules>
 </project>
