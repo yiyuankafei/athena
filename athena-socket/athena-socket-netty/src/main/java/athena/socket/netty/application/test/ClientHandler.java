@@ -7,6 +7,11 @@ import io.netty.channel.ChannelHandlerContext;
 public class ClientHandler extends ChannelHandlerAdapter {
 	
 	@Override
+	public void channelActive(ChannelHandlerContext chx) throws Exception {
+		System.out.println("client channel active...");
+	}
+	
+	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		//((ByteBuf)msg).release();
 		ByteBuf buf = (ByteBuf)msg;

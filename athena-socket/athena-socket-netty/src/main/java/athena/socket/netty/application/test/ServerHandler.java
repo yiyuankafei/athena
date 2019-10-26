@@ -22,6 +22,9 @@ public class ServerHandler extends ChannelHandlerAdapter {
 			//写给客户端
 			ctx.writeAndFlush(Unpooled.copiedBuffer(("我是反馈信息:" + new String(bytes, "UTF-8")).getBytes()));
 			
+			//短连接,客户端接收消息后，服务端关闭连接
+			//ctx.writeAndFlush(Unpooled.copiedBuffer(("我是反馈信息:" + new String(bytes, "UTF-8")).getBytes())).addListener(ChannelFutureListener.CLOSE);
+			
 			//ctx.writeAndFlush(Unpooled.copiedBuffer(("我是反馈信息:" + new String(bytes, "UTF-8")).getBytes())).addListener(ChannelFutureListener.CLOSE);
 			
 			/*ChannelFuture future = ctx.writeAndFlush(Unpooled.copiedBuffer(("我是反馈信息:" + new String(bytes, "UTF-8")).getBytes()));

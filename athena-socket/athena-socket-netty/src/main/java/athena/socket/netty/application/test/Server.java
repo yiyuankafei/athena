@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 public class Server {
 	
@@ -25,6 +26,17 @@ public class Server {
 			.childHandler(new ChannelInitializer<SocketChannel>() { 	//绑定具体的事件处理器
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
+					//设置分隔符解决拆包粘包
+					//ByteBuf limitBuf = Unpooled.copiedBuffer("$_".getBytes());
+					//ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, limitBuf));
+					//ch.pipeline().addLast(new StringDecoder());
+					//定长
+					//ch.pipeline().addLast(new FixedLengthFrameDecoder(5));
+					//序列化
+					//ch.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
+					//ch.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
+					//一定时间没有数据，主动断开连接   -----客户端和服务器都要有
+					//ch.pipeline().addLast(new ReadTimeoutHandler(5));
 					ch.pipeline().addLast(new ServerHandler());    //
 				}
 			})
