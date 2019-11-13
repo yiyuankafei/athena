@@ -6,9 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>athena-mq-rabbit</artifactId>
+  <packaging>pom</packaging>
   
-  <dependencies>
-  	
-  </dependencies>
   
+  <modules>
+  	<module>athena-mq-rabbit-consumer</module>
+  	<module>athena-mq-rabbit-provider</module>
+  </modules>
 </project>
