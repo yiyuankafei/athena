@@ -14,5 +14,7 @@
   <modules>
   	<module>athena-socket</module>
   	<module>athena-io</module>
+  	<module>athena-mq</module>
+  	<module>athena-thirdpart</module>
   </modules>
 </project>
