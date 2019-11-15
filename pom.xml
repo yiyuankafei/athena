@@ -16,5 +16,6 @@
   	<module>athena-io</module>
   	<module>athena-mq</module>
   	<module>athena-thirdpart</module>
+  	<module>athena-oauth</module>
   </modules>
 </project>
