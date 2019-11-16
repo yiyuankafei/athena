@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.application.entity.AccessToken;
 import com.application.entity.WechatUserUnionID;
-import com.application.util.HttpClientUtil;
+import com.athena.common.util.HttpClientUtil;
 
 @Controller
 public class LoginController {

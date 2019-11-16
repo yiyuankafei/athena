@@ -17,5 +17,7 @@
   	<module>athena-mq</module>
   	<module>athena-thirdpart</module>
   	<module>athena-oauth</module>
+  	<module>athena-pay</module>
+  	<module>athena-common</module>
   </modules>
 </project>

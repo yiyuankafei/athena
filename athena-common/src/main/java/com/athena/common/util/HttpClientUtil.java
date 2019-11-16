@@ -1,6 +1,4 @@
-package com.application.util;
-
-
+package com.athena.common.util;
 
 
 import org.apache.http.HttpEntity;

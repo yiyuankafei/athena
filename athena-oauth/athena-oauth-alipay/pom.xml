@@ -30,11 +30,6 @@
 	    </dependency>
 		
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.13</version>
@@ -46,6 +41,12 @@
             <artifactId>sdk</artifactId>
             <version>20170829142630</version>
         </dependency>
+        
+        <dependency>
+			<groupId>com.yiyuankafei.base</groupId>
+			<artifactId>athena-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		
   </dependencies>
 </project>

@@ -30,8 +30,9 @@
 	    </dependency>
 		
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
+			<groupId>com.yiyuankafei.base</groupId>
+			<artifactId>athena-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
   </dependencies>
