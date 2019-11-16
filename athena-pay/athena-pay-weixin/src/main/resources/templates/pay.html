@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+	function orderStatus() {
+		$.post("/pay/status", {}, function(data){
+			if (data == 1) {
+				window.location.href="index.html";
+			}
+		});
+	}
+	
+	setInterval("orderStatus()", 3000);
+	
+</script>
+<body>
+    <div layout:fragment="content">
+        <h2>待支付页面</h2>
+        <div>商品信息：xxx</div>
+        <img src="/pay/qrcode?orderId="/>
+    </div>
+</body>
+</html>
