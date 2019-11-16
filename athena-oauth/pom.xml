@@ -9,5 +9,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>athena-oauth-qq</module>
+  	<module>athena-oauth-weixin</module>
   </modules>
 </project>
