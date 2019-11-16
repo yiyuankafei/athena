@@ -17,6 +17,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.AlipayConstants;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayOpenPublicGisQueryRequest;
+import com.alipay.api.request.AlipaySystemOauthTokenRequest;
+import com.alipay.api.request.AlipayUserInfoShareRequest;
+import com.alipay.api.response.AlipayOpenPublicGisQueryResponse;
+import com.alipay.api.response.AlipaySystemOauthTokenResponse;
+import com.alipay.api.response.AlipayUserInfoShareResponse;
+import com.application.config.AlipayConfig;
 import com.application.entity.User;
 
 @RequestMapping("/alipay")
@@ -200,7 +212,7 @@ public class LoginController {
 	public static String encryptAndSign(String bizContent, String alipayPublicKey, String cusPrivateKey, String charset,
 			boolean isEncrypt, boolean isSign, String signType) throws AlipayApiException {
 		StringBuilder sb = new StringBuilder();
-		if (StringUtils.isEmpty(charset)) {
+		if (charset == null || charset.trim().length() == 0) {
 			charset = AlipayConstants.CHARSET_GBK;
 		}
 		sb.append("<?xml version=\"1.0\" encoding=\"" + charset + "\"?>");

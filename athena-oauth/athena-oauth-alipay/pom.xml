@@ -37,10 +37,10 @@
 		
 		<!-- alipay -->
         <dependency>
-            <groupId>alipay</groupId>
-            <artifactId>sdk</artifactId>
-            <version>20170829142630</version>
-        </dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>3.7.4.ALL</version>
+		</dependency>
         
         <dependency>
 			<groupId>com.yiyuankafei.base</groupId>
