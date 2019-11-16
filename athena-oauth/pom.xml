@@ -10,5 +10,6 @@
   <modules>
   	<module>athena-oauth-qq</module>
   	<module>athena-oauth-weixin</module>
+  	<module>athena-oauth-alipay</module>
   </modules>
 </project>
