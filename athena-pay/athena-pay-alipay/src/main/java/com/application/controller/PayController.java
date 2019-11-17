@@ -3,6 +3,7 @@ package com.application.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePayModel;
+import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.athena.common.response.ResEnv;
 
 @Controller
 public class PayController {
@@ -79,6 +83,12 @@ public class PayController {
 	 */
     public static final String NOTIFY_URL = "http://localhost:8999/callback";
     
+    
+    
+    /**
+     * 
+     * 统一下单
+     */
     @RequestMapping("/pay")
     public void pay(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
@@ -91,20 +101,37 @@ public class PayController {
     	//未支付订单入库
     	
     	AlipayClient client=new DefaultAlipayClient(ALI_WEB, APP_ID, RSA2_PRI_KEY, DATA_FORMAT, ENCODING, ALI_PUB_KEY, SIGN_TYPE);
-		
-		// 支付请求
-		AlipayTradePagePayRequest alipayRequest=new AlipayTradePagePayRequest();
-		alipayRequest.setReturnUrl(RETURN_URL);
-		alipayRequest.setNotifyUrl(NOTIFY_URL);
-		AlipayTradePayModel model=new AlipayTradePayModel();
-		model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码   即时到账
-		model.setOutTradeNo(orderNo); // 设置订单号
-		model.setSubject(subject); // 订单名称
-		model.setTotalAmount(totalAmount); // 支付总金额
-		model.setBody(body); // 设置商品描述
-		alipayRequest.setBizModel(model);
-		
-		String form = client.pageExecute(alipayRequest).getBody(); // 生成表单
+    	String form = ""; // 生成表单
+    	
+    	String clientType = request.getHeader("User-Agent");
+    	//Androw  iphone windows-phone  移动端
+    	if (clientType.indexOf("xxx") > 1) {
+    		//移动端支付请求
+    		AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
+    		alipayRequest.setReturnUrl(RETURN_URL);
+    		alipayRequest.setNotifyUrl(NOTIFY_URL);
+			AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+			model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码
+			model.setOutTradeNo(orderNo); // 设置订单号
+			model.setSubject(subject); // 订单名称
+			model.setTotalAmount(totalAmount); // 支付总金额
+			model.setBody(body); // 设置商品描述
+			alipayRequest.setBizModel(model);
+			form = client.pageExecute(alipayRequest).getBody(); // 生成表单
+    	} else {
+    		// WEB端支付请求
+    		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+    		alipayRequest.setReturnUrl(RETURN_URL);
+    		alipayRequest.setNotifyUrl(NOTIFY_URL);
+    		AlipayTradePayModel model = new AlipayTradePayModel();
+    		model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码   即时到账
+    		model.setOutTradeNo(orderNo); // 设置订单号
+    		model.setSubject(subject); // 订单名称
+    		model.setTotalAmount(totalAmount); // 支付总金额
+    		model.setBody(body); // 设置商品描述
+    		alipayRequest.setBizModel(model);
+    		form = client.pageExecute(alipayRequest).getBody(); // 生成表单
+    	}
 		
 		response.setContentType("text/html;charset=" + ENCODING); 
 		response.getWriter().write(form); // 直接将完整的表单html输出到页面 
@@ -114,6 +141,10 @@ public class PayController {
     }
     
     
+    /**
+     * 
+     * 异步通知
+     */
     @RequestMapping("/callback")
     public void callback(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	//获取支付宝GET过来反馈信息
@@ -128,7 +159,7 @@ public class PayController {
 						: valueStr + values[i] + ",";
 			}
 			params.put(name, valueStr);
-			System.out.println("name:"+name+",valueStr:"+valueStr);
+			System.out.println("name:" + name + ",valueStr:" + valueStr);
 		}
 		
 		boolean signVerified = AlipaySignature.rsaCheckV1(params, ALI_PUB_KEY, ENCODING, SIGN_TYPE); //调用SDK验证签名
@@ -153,10 +184,14 @@ public class PayController {
     	
     }
     
+    /**
+     * 
+     * 同步跳转
+     */
     @RequestMapping("/returnUrl")
     public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    	ModelAndView mav=new ModelAndView();
+    	ModelAndView mav = new ModelAndView();
 		mav.addObject("title", "同步通知地址XXX");
 		//获取支付宝GET过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -170,7 +205,7 @@ public class PayController {
 						: valueStr + values[i] + ",";
 			}
 			params.put(name, valueStr);
-			System.out.println("name:"+name+",valueStr:"+valueStr);
+			System.out.println("name:" + name + ",valueStr:" + valueStr);
 		}
 		
 		boolean signVerified = AlipaySignature.rsaCheckV1(params, ALI_PUB_KEY, ENCODING, SIGN_TYPE); //调用SDK验证签名
@@ -183,5 +218,4 @@ public class PayController {
 		mav.setViewName("returnUrl");
 		return mav;
     }
-
 }

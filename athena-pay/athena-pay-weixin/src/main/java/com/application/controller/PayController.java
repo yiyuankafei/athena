@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.athena.common.response.ResEnv;
 import com.athena.common.util.HttpClientUtil;
@@ -40,7 +43,46 @@ public class PayController {
 	private static String downloadBillUrl = "https://api.mch.weixin.qq.com/pay/downloadbill"; //对账单
 
 	private static String downloadFundFlowUrl = "https://api.mch.weixin.qq.com/pay/downloadfundflow"; //下载资金账单
+	
+	private static String returnUrl = "";
 
+	@RequestMapping("/pay")
+	public ModelAndView pay(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String clientType = request.getHeader("User-Agent");
+    	//Androw  iphone windows-phone  移动端
+    	if (clientType.indexOf("xxx") > 1) {
+    		//移动端支付请求
+    		//直接唤醒微信支付
+    		String orderNo = ""; // 生成订单号
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("appid", appId);
+			map.put("mch_id", mchId);
+			map.put("device_info","");
+			map.put("notify_url", notifyUrl);
+			map.put("trade_type", "MWEB"); // 交易类型
+			map.put("out_trade_no", orderNo);
+			map.put("body", "");
+			map.put("total_fee", 1);
+			map.put("nonce_str", "123456"); // 随机串
+			map.put("spbill_create_ip", "xxx"); // 终端IP
+			map.put("sign", ""); // 签名
+			String xml = ""; //map转xml
+			System.out.println(xml);
+			InputStream in = null; //HttpClientUtil.doPostXml(payUrl ,xml).getEntity().getContent(); // 发送xml消息
+			String mweb_url = ""; //getElementValue(in,"mweb_url");   获取返回的mweb_url
+			// 拼接跳转地址 
+			mweb_url += "&redirect_url=" + URLEncoder.encode(returnUrl, "GBK");
+			/*order.setOrderNo(orderNo); // 设置订单号
+     		orderService.save(order); // 保存订单信息*/ 
+    		response.sendRedirect(mweb_url);
+     		return null;
+    	} else {
+    		// WEB端支付请求
+    		//返回页面，在img中调用/pay/qrcode生成支付二维码
+    		return new ModelAndView();
+    	}
+	}
+	
 	
 	@RequestMapping("/pay/qrcode")
 	public void qrcode(String orderId, HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +92,7 @@ public class PayController {
 		map.put("mch_id", mchId);
 		map.put("nonce_str", "123456"); //随机字符串
 		map.put("notify_url", notifyUrl);
-		map.put("trade_type", "NATIVE");
+		map.put("trade_type", "NATIVE"); //PC端
 		map.put("out_trade_no", orderId);
 		map.put("body", "测试商品"); //商品描述
 		map.put("total_fee", 1000); //订单金额   单位：分
