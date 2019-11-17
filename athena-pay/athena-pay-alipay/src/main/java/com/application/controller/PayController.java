@@ -1,7 +1,22 @@
 package com.application.controller;
 
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradePayModel;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 
 @Controller
 public class PayController {
@@ -51,7 +66,122 @@ public class PayController {
 	 * 开发者网关验证服务
 	 */
     public static final String ALIPAY_CHECK_SERVICE = "alipay.service.check";
+    
+    /**
+	 * 
+	 * 同步通知地址
+	 */
+    public static final String RETURN_URL = "http://localhost:8999/returnUrl";
+    
+    /**
+	 * 
+	 * 异步通知地址
+	 */
+    public static final String NOTIFY_URL = "http://localhost:8999/callback";
+    
+    @RequestMapping("/pay")
+    public void pay(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	//从request中获取请求支付的订单信息
+    	String totalAmount = "";
+    	String subject = "";
+    	String body = "";
+    	String orderNo = ""; //生成订单号
+    	
+    	//未支付订单入库
+    	
+    	AlipayClient client=new DefaultAlipayClient(ALI_WEB, APP_ID, RSA2_PRI_KEY, DATA_FORMAT, ENCODING, ALI_PUB_KEY, SIGN_TYPE);
+		
+		// 支付请求
+		AlipayTradePagePayRequest alipayRequest=new AlipayTradePagePayRequest();
+		alipayRequest.setReturnUrl(RETURN_URL);
+		alipayRequest.setNotifyUrl(NOTIFY_URL);
+		AlipayTradePayModel model=new AlipayTradePayModel();
+		model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码   即时到账
+		model.setOutTradeNo(orderNo); // 设置订单号
+		model.setSubject(subject); // 订单名称
+		model.setTotalAmount(totalAmount); // 支付总金额
+		model.setBody(body); // 设置商品描述
+		alipayRequest.setBizModel(model);
+		
+		String form = client.pageExecute(alipayRequest).getBody(); // 生成表单
+		
+		response.setContentType("text/html;charset=" + ENCODING); 
+		response.getWriter().write(form); // 直接将完整的表单html输出到页面 
+		response.getWriter().flush(); 
+		response.getWriter().close();
+    	
+    }
+    
+    
+    @RequestMapping("/callback")
+    public void callback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	//获取支付宝GET过来反馈信息
+		Map<String,String> params = new HashMap<String,String>();
+		Map<String,String[]> requestParams = request.getParameterMap();
+		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i]
+						: valueStr + values[i] + ",";
+			}
+			params.put(name, valueStr);
+			System.out.println("name:"+name+",valueStr:"+valueStr);
+		}
+		
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, ALI_PUB_KEY, ENCODING, SIGN_TYPE); //调用SDK验证签名
+		//商户订单号
+		String out_trade_no = request.getParameter("out_trade_no");
+		//交易状态
+		String trade_status = request.getParameter("trade_status");
+		
+		if(signVerified){ // 验证成功 更新订单信息
+			if(trade_status.equals("TRADE_FINISHED")){
+				
+			}
+			if(trade_status.equals("TRADE_SUCCESS")){
+				
+			}
+			if(out_trade_no != null && out_trade_no.trim().length() > 0){
+				
+			}
+		}else{
+			
+		}
+    	
+    }
+    
+    @RequestMapping("/returnUrl")
+    public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-	
+    	ModelAndView mav=new ModelAndView();
+		mav.addObject("title", "同步通知地址XXX");
+		//获取支付宝GET过来反馈信息
+		Map<String,String> params = new HashMap<String,String>();
+		Map<String,String[]> requestParams = request.getParameterMap();
+		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i]
+						: valueStr + values[i] + ",";
+			}
+			params.put(name, valueStr);
+			System.out.println("name:"+name+",valueStr:"+valueStr);
+		}
+		
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, ALI_PUB_KEY, ENCODING, SIGN_TYPE); //调用SDK验证签名
+
+		if(signVerified) {
+			mav.addObject("message", "支付成功 XXXXXX");
+		}else {
+			mav.addObject("message", "验签失败");
+		}
+		mav.setViewName("returnUrl");
+		return mav;
+    }
 
 }
