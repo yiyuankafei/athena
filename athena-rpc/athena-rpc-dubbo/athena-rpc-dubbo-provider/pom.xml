@@ -19,19 +19,8 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.alibaba.spring.boot</groupId>
-			<artifactId>dubbo-spring-boot-starter</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		
-		<dependency>
-	    <groupId>io.netty</groupId>
+	    	<groupId>io.netty</groupId>
 		    <artifactId>netty-all</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
 		<!-- dubbo + nacos start -->

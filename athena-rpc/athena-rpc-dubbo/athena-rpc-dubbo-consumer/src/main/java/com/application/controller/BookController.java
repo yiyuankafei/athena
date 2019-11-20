@@ -9,7 +9,7 @@ import com.application.service.BookService;
 @RestController
 public class BookController {
 	
-	@Reference(group = "test-nacos2")
+	@Reference
 	BookService bookService;
 	
 	@RequestMapping("/get")

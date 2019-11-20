@@ -10,5 +10,6 @@
   <modules>
   	<module>athena-rpc-dubbo</module>
   	<module>athena-rpc-nacos</module>
+  	<module>athena-rpc-config</module>
   </modules>
 </project>
