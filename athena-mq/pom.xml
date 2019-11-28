@@ -23,5 +23,6 @@
 
   <modules>
   	<module>athena-mq-rabbit</module>
+  	<module>athena-mq-rocket</module>
   </modules>
 </project>
