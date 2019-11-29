@@ -24,7 +24,7 @@ public class TicketController {
 	/**
      * topic,消息依赖于topic
      */
-    private static final String topic = "ticket_damo_topic";
+    private static final String topic = "topic-ticket-dev";
     							
 	
 	@RequestMapping("/test/producer")

@@ -2,8 +2,10 @@ package com.application.consumer;
 
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.stereotype.Service;
 
-@RocketMQMessageListener(topic = "ticket_damo_topic", consumerGroup = "ticket-consumer")
+@Service
+@RocketMQMessageListener(topic = "topic-ticket-dev", consumerGroup = "ticket-consumer")
 public class TicketConsumer implements RocketMQListener<String> {
 
 	@Override
