@@ -9,5 +9,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>athena-socket-netty</module>
+  	<module>athena-socket-websocket</module>
   </modules>
 </project>
