@@ -1,5 +1,9 @@
 package com.application.controller;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
 import javax.annotation.Resource;
@@ -7,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +29,24 @@ public class TicketController {
 	/**
      * topic,消息依赖于topic
      */
-    private static final String topic = "topic-ticket-dev";
+    private static final String topic = "topic-byf-test";
     							
 	
 	@RequestMapping("/test/producer")
-	public ResEnv<?> testProducer(String text) throws Exception {
+	public ResEnv<?> testProducer() throws Exception {
 		
-		Message<String> message = MessageBuilder.withPayload(text).build();
+		String path = "C:\\Users\\Administrator\\Desktop\\test.txt";
+		
+		String string = null;
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "GBK"));
+			string = reader.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Message<String> message = MessageBuilder.withPayload(string).build();
 		StringBuilder destination = new StringBuilder(topic);
 		SendResult sendResult = rocketMQTemplate.syncSend(destination.toString(), message);
 		if (SendStatus.SEND_OK == sendResult.getSendStatus()) {
