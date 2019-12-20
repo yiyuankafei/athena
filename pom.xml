@@ -20,5 +20,6 @@
   	<module>athena-pay</module>
   	<module>athena-common</module>
   	<module>athena-rpc</module>
+  	<module>athena-cipher</module>
   </modules>
 </project>
