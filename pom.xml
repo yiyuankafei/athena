@@ -11,6 +11,11 @@
   	<version>2.1.7.RELEASE</version>
   </parent>
   
+  <properties>
+  	<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+  </properties>
+  
+  
   <modules>
   	<module>athena-socket</module>
   	<module>athena-io</module>
@@ -21,5 +26,7 @@
   	<module>athena-common</module>
   	<module>athena-rpc</module>
   	<module>athena-cipher</module>
+  	<module>athena-job</module>
+  	<module>athena-docker</module>
   </modules>
 </project>

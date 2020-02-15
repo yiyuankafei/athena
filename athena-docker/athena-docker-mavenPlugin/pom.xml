@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yiyuankafei.base</groupId>
+    <artifactId>athena-docker</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>athena-docker-mavenPlugin</artifactId>
+  
+  <properties>
+  		<image.repo>registry.cn-shanghai.aliyuncs.com</image.repo>
+  </properties>
+  
+  <dependencies>
+  		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+  </dependencies>
+  
+  <build>
+  		<finalName>athena-docker-mavenPlugin</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<imageName>${image.repo}/athena-framework/athena-docker-mavenplugin:latest</imageName>
+					<baseImage>openjdk:7-jre-slim</baseImage>
+					<entryPoint>["/app/config/bin/start.sh","/app/${project.build.finalName}.jar"]</entryPoint>
+					<comPress>true</comPress>
+					<resources>
+						<resource>
+							<targetPath>/app/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+  
+</project>
