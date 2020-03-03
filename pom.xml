@@ -28,5 +28,6 @@
   	<module>athena-cipher</module>
   	<module>athena-job</module>
   	<module>athena-docker</module>
+  	<module>athena-spring</module>
   </modules>
 </project>
