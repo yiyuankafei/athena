@@ -12,7 +12,7 @@ public class LoginUserResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(LoginUser.class)
-                && parameter.getParameterType().equals(LoginUser.class);
+                && parameter.getParameterType().equals(User.class);
     }
 
     @Override
