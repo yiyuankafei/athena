@@ -29,5 +29,6 @@
   	<module>athena-job</module>
   	<module>athena-docker</module>
   	<module>athena-spring</module>
+  	<module>athena-search</module>
   </modules>
 </project>
