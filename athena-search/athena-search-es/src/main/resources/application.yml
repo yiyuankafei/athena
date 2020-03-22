@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: athena-search-es
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-name: docker-cluster
+      cluster-nodes: 47.92.209.37:9300
+server:
+  port: 8126
+
