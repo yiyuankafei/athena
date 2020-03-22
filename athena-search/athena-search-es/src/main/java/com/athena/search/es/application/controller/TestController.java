@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,23 +49,32 @@ public class TestController {
 		return "22222222222";
 	}
 	
+	@RequestMapping("/findAll")
+	public Page<HaoqiaoDocument> findAll(String id, Integer pageSize, Integer pageNumber) {
+		System.out.println(id);
+		System.out.println(pageSize);
+		System.out.println(pageNumber);
+		Page<HaoqiaoDocument> findAll = repository.findAll(PageRequest.of(pageNumber, pageSize));
+		return findAll;
+	}
+	
+	@RequestMapping("/findById")
+	public HaoqiaoDocument findById(String id) {
+		Optional<HaoqiaoDocument> findById = repository.findById(id);
+		return findById.get();
+	}
+	
 	@RequestMapping("/search")
 	public Page<HaoqiaoDocument> search(String name, Integer pageSize, Integer pageNumber) {
 		
-		System.out.println(name);
-		System.out.println(pageSize);
-		System.out.println(pageNumber);
 		
 		BoolQueryBuilder keywordSearchQuery = QueryBuilders.boolQuery();
-		keywordSearchQuery.must(QueryBuilders.multiMatchQuery(name, "nameChn"));
+		keywordSearchQuery.must(QueryBuilders.multiMatchQuery(name, "nameChn", "nameEng", "cityNameChn", "cityNameEng"));
 		
 		NativeSearchQuery query = new NativeSearchQueryBuilder()
 			.withQuery(keywordSearchQuery)
-			//.withPageable(PageRequest.of(pageNumber, pageSize))
+			.withPageable(PageRequest.of(pageNumber, pageSize))
 			.build();
-		
-		
-		//keywordSearchQuery.should(QueryBuilders.matchQuery("nameChn", name));
 		
 		Page<HaoqiaoDocument> search = repository.search(query);
 		return search;

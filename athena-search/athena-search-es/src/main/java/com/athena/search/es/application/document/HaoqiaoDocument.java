@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "rewardsbay", type="hao111qiao")
+@Document(indexName = "rewardsbay", type="haoqiao")
 @Getter
 @Setter
 public class HaoqiaoDocument implements Serializable {
