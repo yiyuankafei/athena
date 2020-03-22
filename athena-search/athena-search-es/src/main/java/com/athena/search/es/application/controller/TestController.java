@@ -11,7 +11,13 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +46,28 @@ public class TestController {
 	public String delete() {
 		repository.deleteAll();
 		return "22222222222";
+	}
+	
+	@RequestMapping("/search")
+	public Page<HaoqiaoDocument> search(String name, Integer pageSize, Integer pageNumber) {
+		
+		System.out.println(name);
+		System.out.println(pageSize);
+		System.out.println(pageNumber);
+		
+		BoolQueryBuilder keywordSearchQuery = QueryBuilders.boolQuery();
+		keywordSearchQuery.must(QueryBuilders.multiMatchQuery(name, "nameChn"));
+		
+		NativeSearchQuery query = new NativeSearchQueryBuilder()
+			.withQuery(keywordSearchQuery)
+			//.withPageable(PageRequest.of(pageNumber, pageSize))
+			.build();
+		
+		
+		//keywordSearchQuery.should(QueryBuilders.matchQuery("nameChn", name));
+		
+		Page<HaoqiaoDocument> search = repository.search(query);
+		return search;
 	}
 	
 	
