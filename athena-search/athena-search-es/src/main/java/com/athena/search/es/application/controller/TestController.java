@@ -3,17 +3,24 @@ package com.athena.search.es.application.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.athena.search.es.application.document.HaoqiaoDocument;
+import com.athena.search.es.application.document.HotelDocument;
 import com.athena.search.es.application.domain.HotelCity;
 import com.athena.search.es.application.domain.HotelCountry;
 import com.athena.search.es.application.domain.ImportCityVo;
 import com.athena.search.es.application.domain.ImportCountryVo;
 import com.athena.search.es.application.domain.ImportHotelVo;
+import com.athena.search.es.application.query.Query;
 import com.athena.search.es.application.repository.HaoqiaoRepository;
+import com.athena.search.es.application.repository.HotelRepository;
 
 @RestController
 @Slf4j
@@ -37,6 +47,9 @@ public class TestController {
 	
 	@Autowired
 	HaoqiaoRepository repository;
+	
+	@Autowired
+	HotelRepository hotelRepository;
 	
 	@RequestMapping("/test")
 	public String test() {
@@ -78,6 +91,93 @@ public class TestController {
 		
 		Page<HaoqiaoDocument> search = repository.search(query);
 		return search;
+	}
+	
+	@RequestMapping("/s1")
+	public Page<HotelDocument> search(String name) {
+		
+		
+		BoolQueryBuilder keywordSearchQuery = QueryBuilders.boolQuery();
+		keywordSearchQuery.must(QueryBuilders.multiMatchQuery(name, "nameChn", "nameEng"));
+		
+		NativeSearchQuery query = new NativeSearchQueryBuilder()
+			.withQuery(keywordSearchQuery)
+			.withPageable(PageRequest.of(1, 20))
+			.build();
+		
+		Page<HotelDocument> search = hotelRepository.search(query);
+		return search;
+	}
+	
+	@RequestMapping("/hotel")
+	public Page<HotelDocument> search(Query request) {
+		
+		System.out.println(request);
+		
+		
+		BoolQueryBuilder keywordSearchQuery = QueryBuilders.boolQuery();
+		if (request.getName() != null) {
+			keywordSearchQuery.should(QueryBuilders.multiMatchQuery(request.getName(), "nameChn", "nameEng"));
+		}
+		if (request.getFan() != null) {
+			keywordSearchQuery.should(QueryBuilders.matchQuery("facilities", request.getFan().stream().collect(Collectors.joining(","))));
+		}
+		
+		
+		BoolQueryBuilder termSearchQuery = QueryBuilders.boolQuery();
+		if (request.getCityId() != null) {
+			termSearchQuery.must(QueryBuilders.termQuery("cityId", request.getCityId()));
+		}
+		if (request.getMinPrice() != null) {
+			termSearchQuery.must(QueryBuilders.rangeQuery("minPrice").from(request.getMinPrice()));
+		}
+		if (request.getMaxPrice() != null) {
+			termSearchQuery.must(QueryBuilders.rangeQuery("minPrice").to(request.getMaxPrice()));
+		}
+		if (request.getRoomCount() != null) {
+			termSearchQuery.must(QueryBuilders.rangeQuery("d0").from(request.getRoomCount()));
+		}
+		if (request.getRoomCount2() != null) {
+			termSearchQuery.must(QueryBuilders.rangeQuery("d2").from(request.getRoomCount2()));
+		}
+		if (request.getStarList() != null) {
+			termSearchQuery.must(QueryBuilders.termsQuery("star", request.getStarList()));
+		}
+		if (request.getIdList() != null) {
+			termSearchQuery.must(QueryBuilders.termsQuery("_", request.getIdList()));
+		}
+		
+		if(request.getLongitude() != null) {
+			System.out.println("ASDFGH");
+			termSearchQuery.must(QueryBuilders.geoDistanceQuery("location")
+											  .distance(1, DistanceUnit.KILOMETERS)
+											  .point(new GeoPoint(request.getLatitude(), request.getLongitude()))
+								);
+											  
+					
+		}
+		
+		
+		BoolQueryBuilder searchQuery = QueryBuilders.boolQuery().must(termSearchQuery).must(keywordSearchQuery);
+		
+		List<FieldSortBuilder> fieldSortBuilders = new ArrayList<>();
+		if (request.getSortByScore() != null) {
+			fieldSortBuilders.add(SortBuilders.fieldSort("commentScore").order(SortOrder.DESC));
+		}
+		if (request.getSortByPrice() != null) {
+			fieldSortBuilders.add(SortBuilders.fieldSort("minPrice").order(SortOrder.ASC));
+		}
+		
+		NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+		nativeSearchQueryBuilder.withQuery(searchQuery);
+		nativeSearchQueryBuilder.withPageable(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+		fieldSortBuilders.forEach(item -> {
+			nativeSearchQueryBuilder.withSort(item);
+		});
+		
+		Page<HotelDocument> pages = hotelRepository.search(nativeSearchQueryBuilder.build());
+		
+		return pages;
 	}
 	
 	
@@ -139,7 +239,7 @@ public class TestController {
 							item.setCountryNameEng(list.get(0).getNameEng());
 						}
 						//==================================
-						HaoqiaoDocument doc = new HaoqiaoDocument();
+						/*HaoqiaoDocument doc = new HaoqiaoDocument();
 						doc.setId("C" + item.getCityId());
 						doc.setCityId(item.getCityId());
 						doc.setNameChn(item.getNameChn());
@@ -149,12 +249,12 @@ public class TestController {
 						doc.setCountryNameChn(item.getCountryNameChn());
 						doc.setCountryNameEng(item.getCountryNameEng());
 						doc.setType(1);
-						d.add(doc);
+						d.add(doc);*/
 						//==================================
 						cityList.addAll(vo.getCityList());
 					});
 				}
-				importEs(d);
+				//importEs(d);
 			}
 		}
 	}
@@ -171,6 +271,8 @@ public class TestController {
 		File[] dataFiles = file.listFiles();
 		//GeoOperations<String, String> opsForGeo = redis.opsForGeo();
 		for (File dataFile : dataFiles) {
+			List<HotelDocument> docList = new ArrayList<>();
+			Random r = new Random();
 			//Map<String, Point> pointMap = new HashMap<>();
 			try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
 				String s = null;
@@ -179,10 +281,27 @@ public class TestController {
 					ImportHotelVo vo = JSON.parseObject(s, ImportHotelVo.class);
 					vo.getHotelList().forEach(item -> {
 						System.out.println(item.getNameChn());
-						
+						HotelDocument doc = new HotelDocument();
+						doc.setId(item.getHotelId().toString());
+						doc.setNameChn(item.getNameChn());
+						doc.setNameEng(item.getNameEng());
+						doc.setAddress(item.getAddress());
+						doc.setAddressEng(item.getAddressEng());
+						doc.setLongitude(item.getLongitude());
+						doc.setLatitude(item.getLatitude());
+						doc.setCityId(item.getCityId());
+						doc.setMinPrice(new Double(r.nextInt(2000) + ""));
+						doc.setStar(item.getStar());
+						doc.setCommentScore(item.getCommentScore());
+						doc.setFacilities(item.getFacilities());
+						doc.setImageList(item.getImageList());
+						doc.setLocation(new GeoPoint(item.getLatitude(), item.getLongitude()));
+						doc.setD0(3);
+						doc.setD2(9);
+						docList.add(doc);
 						//pointMap.put(String.valueOf(item.getHotelId()), new Point(item.getLongitude(), item.getLatitude()));
 						//==================================
-						HaoqiaoDocument doc = new HaoqiaoDocument();
+						/*HaoqiaoDocument doc = new HaoqiaoDocument();
 						doc.setId("H" + item.getHotelId());
 						doc.setCityId(item.getCityId());
 						doc.setNameChn(item.getNameChn());
@@ -196,9 +315,9 @@ public class TestController {
 							doc.setCountryNameEng(city.getCountryNameEng());
 							doc.setCityNameChn(city.getNameChn());
 							doc.setCityNameEng(city.getNameEng());
-							doc.setType(1);
+							doc.setType(2);
 						}
-						d.add(doc);
+						d.add(doc);*/
 						//==================================
 					});
 					//设置酒店最低价
@@ -208,7 +327,8 @@ public class TestController {
 					//repository.insertBatch(vo.getHotelList());
 					//opsForGeo.add(CommonConstant.CACHE_HOTEL_GEO, pointMap);
 					//导入ES
-					importEs(d);
+					//importEs(d);
+					hotelRepository.saveAll(docList);
 				}
 			}
 		}
@@ -219,5 +339,4 @@ public class TestController {
 		repository.saveAll(d);
 	}
 
-	
 }
