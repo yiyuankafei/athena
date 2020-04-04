@@ -1,0 +1,13 @@
+spring:
+    applicaiton:
+        name: athena-common
+
+server:
+    port: 9200
+
+#配置中心
+nacos:
+  config:
+    # 服务器地址
+    server-addr: 
+    namespace: 
