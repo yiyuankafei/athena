@@ -1,0 +1,9 @@
+spring:
+    applicaiton:
+        name: athena-thirdpart-qiniu
+
+server:
+    port: 9100
+
+
+

@@ -11,5 +11,6 @@
   <modules>
   	<module>athena-thirdpart-message</module>
   	<module>athena-thirdpart-oss</module>
+  	<module>athena-thirdpart-qiniu</module>
   </modules>
 </project>
