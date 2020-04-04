@@ -21,6 +21,7 @@ public class FtpUtil {
 		boolean login = ftpClient.login(ftp.getUser(), ftp.getPassword());
 		log.info("FTP连接状态:{}", login);
 		ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+		ftpClient.enterLocalPassiveMode();
 		FTPFile[] ftpFiles = ftpClient.listFiles("/");
 		log.info("文件个数:{}", ftpFiles.length);
 		
