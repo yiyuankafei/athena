@@ -10,5 +10,6 @@
   
   <modules>
   	<module>athena-thirdpart-message</module>
+  	<module>athena-thirdpart-oss</module>
   </modules>
 </project>

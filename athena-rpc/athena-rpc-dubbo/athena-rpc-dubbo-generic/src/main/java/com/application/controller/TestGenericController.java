@@ -63,6 +63,7 @@ public class TestGenericController {
 	public static void main(String[] args) {
 		List<String> l = new ArrayList<String>();
 		l.add("a");
+		l.add("f");
 		int nextInt = RandomUtils.nextInt(l.size());
 		System.out.println(nextInt);
 		System.out.println(l.get(nextInt));

@@ -17,7 +17,8 @@ public class DecodeTest {
     @Test
     public void test(){
  
-        String encrypt = stringEncryptor.encrypt("root");
+        //String encrypt = stringEncryptor.encrypt("root");
+    	String encrypt = "EJXFr6s9AccDk27rWx9GbHwIvBd9cviKN";
         System.out.println(encrypt);
         System.out.println(stringEncryptor.decrypt(encrypt));
  

@@ -12,8 +12,8 @@ public class FirstJob {
 	
 	@XxlJob("firstJobHandler")
     public ReturnT<String> firstJobHandler(String param) throws Exception {
-        XxlJobLogger.log("firstJobHandler---------------------");
-        System.out.println("firstJobHandler------");
+        XxlJobLogger.log("firstJobHandler---------------------" + System.currentTimeMillis());
+        System.out.println("firstJobHandler------"+ System.currentTimeMillis());
         return ReturnT.SUCCESS;
     }
 

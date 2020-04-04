@@ -1,7 +1,6 @@
 package com.athena.search.es.application.document;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import lombok.Getter;
 import lombok.Setter;
