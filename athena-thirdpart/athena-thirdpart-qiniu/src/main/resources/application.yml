@@ -6,4 +6,9 @@ server:
     port: 9100
 
 
-
+#配置中心
+nacos:
+  config:
+    # 服务器地址
+    server-addr: 
+    namespace: 
