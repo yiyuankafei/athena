@@ -30,5 +30,6 @@
   	<module>athena-docker</module>
   	<module>athena-spring</module>
   	<module>athena-search</module>
+  	<module>athena-springcloud</module>
   </modules>
 </project>
