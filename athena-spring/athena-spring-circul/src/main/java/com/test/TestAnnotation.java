@@ -6,10 +6,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.application.AppConfig;
 import com.service.D;
 
-public class Test {
+public class TestAnnotation {
 	
 	public static void main(String[] args) {
-		//AnnotationConfigApplicationContext ct = new AnnotationConfigApplicationContext(AppConfig.class);
+		AnnotationConfigApplicationContext ct1 = new AnnotationConfigApplicationContext(AppConfig.class);
 		
 		//关闭循环依赖
 		AnnotationConfigApplicationContext ct = new AnnotationConfigApplicationContext();
