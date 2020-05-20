@@ -9,5 +9,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>athena-springcloud-eureka-server</module>
+  	<module>athena-springcloud-eureka-client-provider</module>
+  	<module>athena-springcloud-eureka-client-consumer</module>
   </modules>
 </project>
