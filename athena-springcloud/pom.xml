@@ -29,5 +29,6 @@
   
   <modules>
   	<module>athena-springcloud-eureka</module>
+  	<module>athena-springcloud-feign</module>
   </modules>
 </project>

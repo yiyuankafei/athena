@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yiyuankafei.base</groupId>
+    <artifactId>athena-springcloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>athena-springcloud-feign</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>athena-springcloud-feign-interface</module>
+  	<module>athena-springcloud-feign-provider</module>
+  	<module>athena-springcloud-feign-consumer</module>
+  </modules>
+</project>
