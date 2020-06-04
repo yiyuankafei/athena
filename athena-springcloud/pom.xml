@@ -30,5 +30,6 @@
   <modules>
   	<module>athena-springcloud-eureka</module>
   	<module>athena-springcloud-feign</module>
+  	<module>athena-springcloud-zuul</module>
   </modules>
 </project>
