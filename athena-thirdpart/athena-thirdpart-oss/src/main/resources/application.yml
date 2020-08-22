@@ -6,7 +6,7 @@ server:
     port: 9099
 
 oss:
-  accessKeyId: LTAIXVFZBZEYUAz4
+  accessKeyId: L
   endPoint: http://oss-cn-hangzhou.aliyuncs.com
   bucketName: byf-bucket
   accessKeySecret: xd1FQfRMpcnkN2A0DZ8IM41AAyjdpQC
