@@ -1,0 +1,9 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: activemq-provider
+  activemq:
+    broker-url: tcp://47.92.209.37:61617
+    user: admin
+    password: admin
