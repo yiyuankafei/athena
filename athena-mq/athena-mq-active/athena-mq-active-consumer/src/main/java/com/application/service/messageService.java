@@ -17,6 +17,7 @@ public class messageService {
     public void messageConsumer(String message) {
 
         System.out.println("aaaa111ffabbbccc");
+        System.out.println("aaaa222ffabbbccc");
         System.out.println("消费者收到消息test-q2：" + message);
 
     }
