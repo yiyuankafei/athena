@@ -16,7 +16,7 @@ public class messageService {
     @JmsListener(destination = "test-q2", concurrency = "5")
     public void messageConsumer(String message) {
 
-        System.out.println("aaaaffabbbccc");
+        System.out.println("aaaa111ffabbbccc");
         System.out.println("消费者收到消息test-q2：" + message);
 
     }
