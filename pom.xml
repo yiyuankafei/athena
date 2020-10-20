@@ -31,5 +31,6 @@
   	<module>athena-spring</module>
   	<module>athena-search</module>
   	<module>athena-springcloud</module>
+  	<module>athena-data</module>
   </modules>
 </project>

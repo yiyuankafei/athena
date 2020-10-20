@@ -1,0 +1,12 @@
+server: 
+  port: 8081
+ 
+spring: 
+  application: 
+    name: yiyuankafei-athena-es
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-name: docker-cluster
+      cluster-nodes: 47.92.209.37:9300
