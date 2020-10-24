@@ -1,6 +1,5 @@
 package com.athena.search.es.application.query;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Getter;
