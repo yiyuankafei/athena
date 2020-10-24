@@ -200,6 +200,10 @@ public class HotelSearch implements Serializable {
 	@Field(type = FieldType.Integer)
 	private Integer d30;
 	
+	/** T+31 剩余房间数 */
+	@Field(type = FieldType.Integer)
+	private Integer d31;
+	
 	/** 更新时间 */
 	@Field(index = true, type = FieldType.Long)
 	private Date updateTime;
