@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class B {
 	
 	@Autowired
-	private A aa;
+	private A aab;
 
 }
