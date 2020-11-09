@@ -1,0 +1,13 @@
+spring:
+    applicaiton:
+        name: athena-thirdpart-bos
+
+server:
+    port: 9098
+
+bos:
+  accessKey: c5d6b55f98044df880a55e6693f6c24
+  secretKey: f7f361f8a08c4b1bb3656321326b082
+  bucketName: byf-bucket
+  endpoint: fsh.bcebos.com
+
