@@ -13,5 +13,6 @@
   	<module>athena-thirdpart-oss</module>
   	<module>athena-thirdpart-qiniu</module>
       <module>athena-thirdpart-bos</module>
+      <module>athena-thirdpart-ali-bccr</module>
   </modules>
 </project>
