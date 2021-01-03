@@ -59,18 +59,18 @@ private static final List<String> TABLE_NAME = new ArrayList<>(Arrays.asList("ho
 
 	public void downloadBaseInfo() throws Exception {
 		
-		String targetFileName = "C:\\Users\\Administrator\\Desktop\\生活码头文档\\好巧资料\\好巧测试环境静态数据";
+		String targetFileName = "F:\\生活码头文档\\好巧资料\\好巧测试环境静态数据";
 		
 		//开始导入数据
 		File baseFile = new File(targetFileName);
 		File[] dataFiles = baseFile.listFiles();
-		
-		//新建版本号
+
+        //新建版本号
 //		HotelDataVersion version = new HotelDataVersion();
 //		repository.insert(version);
 //		log.info("【最新版本号:{}】", version.getId());
 //		Thread.sleep(2000);
-//		
+//
 		List<HotelCountry> countryList = new ArrayList<>();
 		List<HotelCity> cityList = new ArrayList<>();
 		Map<String, List<File>> fileNameMap = Arrays.asList(dataFiles).stream().collect(Collectors.groupingBy(File::getName));
@@ -174,7 +174,7 @@ private static final List<String> TABLE_NAME = new ArrayList<>(Arrays.asList("ho
 	/**
 	 * 
 	 * 导入酒店信息
-	 */
+	 *//*
 	private void importHotel(File file, List<HotelCity> cityList) throws Exception {
 		Map<Long, List<HotelCity>> cityMap = cityList.stream().collect(Collectors.groupingBy(HotelCity::getCityId));
 		File[] dataFiles = file.listFiles();
@@ -207,6 +207,58 @@ private static final List<String> TABLE_NAME = new ArrayList<>(Arrays.asList("ho
 							step = size - i;
 						}
 						log.info("酒店导入ES,数量:{},分组:({},{})", hotelSearchList.size(), i, i +step);
+						List<HsetMinPriceotelSearch> subList = hotelSearchList.subList(i, i + step);
+						try {
+							hotelSearchRepository.saveAll(subList);
+						} catch (Exception e) {
+							e.printStackTrace();
+							log.error("酒店导入hotelSearch失败，文件名:{}", dataFile.getName());
+						}
+						//数据保存mysql
+					}
+				}
+			}
+		}
+	}*/
+
+	/**
+	 *
+	 * 导入酒店信息
+	 */
+	private void importHotel(File file, List<HotelCity> cityList) throws Exception {
+		Map<Long, List<HotelCity>> cityMap = cityList.stream().collect(Collectors.groupingBy(HotelCity::getCityId));
+		File[] dataFiles = file.listFiles();
+		for (File dataFile : dataFiles) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
+				String s = null;
+				while ((s = reader.readLine()) != null) {
+					List<AggrSearch> aggrSearchList = new ArrayList<>();
+					List<HotelSearch> hotelSearchList = new ArrayList<>();
+					ImportHotelVo vo = JSON.parseObject(s, ImportHotelVo.class);
+					//设置酒店最低价
+					setMinPrice(vo.getHotelList());
+					// 转换酒店图片为本地源
+					//uploadImages(vo.getHotelList());
+					try {
+						vo.getHotelList().forEach(item -> {
+							List<HotelCity> city = cityMap.get(item.getCityId());
+							aggrSearchList.add(assembleAggrSearchFromHotel(item, city));
+							hotelSearchList.add(assembleHotelSearch(item));
+						});
+						//数据保存es
+						aggrSearchRepository.saveAll(aggrSearchList);
+					} catch (Exception e) {
+						e.printStackTrace();
+						log.error("酒店导入aggrSearch失败，文件名:{}", dataFile.getName());
+					}
+
+					int size = hotelSearchList.size();
+					int step = 2000;
+					for (int i = 0; i < size; i += step) {
+						if (i + step > size) {
+							step = size - i;
+						}
+						log.info("酒店导入ES,数量:{},分组:({},{})", hotelSearchList.size(), i, i +step);
 						List<HotelSearch> subList = hotelSearchList.subList(i, i + step);
 						try {
 							hotelSearchRepository.saveAll(subList);
@@ -220,7 +272,7 @@ private static final List<String> TABLE_NAME = new ArrayList<>(Arrays.asList("ho
 			}
 		}
 	}
-	
+
 
 	private void setMinPrice(List<HotelInfo> hotelList) {
 		hotelList.forEach(item -> {
