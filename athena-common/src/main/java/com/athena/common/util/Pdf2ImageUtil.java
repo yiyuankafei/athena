@@ -40,8 +40,8 @@ public class Pdf2ImageUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String source = "C:\\Users\\Administrator\\Desktop\\证书更换\\pdf证书.pdf";
-        String target = "C:\\Users\\Administrator\\Desktop\\证书更换\\图片证书";
+        String source = "C:\\Users\\Administrator\\Desktop\\test\\68987d739490b16310a83e642860d97b.pdf";
+        String target = "C:\\Users\\Administrator\\Desktop\\test\\";
         translate(source, target);
     }
 
