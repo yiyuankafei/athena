@@ -30,7 +30,7 @@ public class PdfBoxUtil {
             String imgFilePathPrefix = imgFolderPath + File.separator + imagePDFName;
             imgFilePath = new StringBuffer();
             imgFilePath.append(imgFilePathPrefix);
-            imgFilePath.append(".png");
+            imgFilePath.append(".jpg");
             File dstFile = new File(imgFilePath.toString());
             BufferedImage image = renderer.renderImageWithDPI(0, dpi);
             int pageWidth = image.getWidth();
@@ -49,7 +49,7 @@ public class PdfBoxUtil {
                 imageResult.setRGB(0, pageHeight * i, pageWidth, pageHeight, rgb, 0, pageWidth);
             }
 
-            ImageIO.write(imageResult, "png", dstFile);
+            ImageIO.write(imageResult, "jpg", dstFile);
             System.out.println("PDF文档转PNG图片成功！");
             long l2 = System.currentTimeMillis();
             System.out.println(l2 - l);
@@ -61,8 +61,8 @@ public class PdfBoxUtil {
     }
 
     public static void main(String[] args) {
-        pdf2Image("C:\\Users\\Administrator\\Desktop\\test\\单作品.pdf",
-                "C:\\Users\\Administrator\\Desktop\\test",120);
+        pdf2Image("C:\\Users\\Administrator\\Desktop\\91c1b135a7a584271ec2c2816dc8c8fc.pdf",
+                "C:\\Users\\Administrator\\Desktop\\test",90);
     }
 
 }
