@@ -1,7 +1,5 @@
 package com.athena.common.util;
 
-import org.apache.commons.lang3.RandomUtils;
-
 public class SnowFlake {
 
     /**
@@ -48,6 +46,7 @@ public class SnowFlake {
             try {
                 Thread.sleep(1);
                 currentTime = System.currentTimeMillis();
+                lastTime = currentTime;
             } catch (Exception e) {
                 e.printStackTrace();
             }
