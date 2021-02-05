@@ -46,6 +46,7 @@ public class SnowFlake {
             try {
                 Thread.sleep(1);
                 currentTime = System.currentTimeMillis();
+                sequence = 0;
                 lastTime = currentTime;
             } catch (Exception e) {
                 e.printStackTrace();
