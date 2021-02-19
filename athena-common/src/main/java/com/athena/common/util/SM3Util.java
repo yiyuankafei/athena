@@ -58,7 +58,7 @@ public class SM3Util {
         return Integer.valueOf(x.intValue() ^ Integer.rotateLeft(x.intValue(), 15) ^ Integer.rotateLeft(x.intValue(), 23));
     }
 
-    private static byte[] padding(byte[] source) throws IOException {
+    private static byte[] padding(byte[] source, Integer length) throws IOException {
         if (source.length >= 0x2000000000000000l) {
             throw new RuntimeException("src data invalid.");
         }
@@ -75,7 +75,7 @@ public class SM3Util {
             baos.write(ZeroPadding);
             i -= 8;
         }
-        baos.write(long2bytes(l));
+        baos.write(long2bytes(length == null ? l : length * 8));
         return baos.toByteArray();
     }
 
@@ -88,7 +88,7 @@ public class SM3Util {
     }
 
     public static byte[] hash(byte[] source) throws IOException {
-        byte[] m1 = padding(source);
+        byte[] m1 = padding(source, null);
         int n = m1.length / (512 / 8);
         byte[] b;
         byte[] vi = IV.toByteArray();
@@ -96,6 +96,24 @@ public class SM3Util {
         for (int i = 0; i < n; i++) {
             b = Arrays.copyOfRange(m1, i * 64, (i + 1) * 64);
             vi1 = CF(vi, b);
+            vi = vi1;
+        }
+        return vi1;
+    }
+
+    private static byte[] hash(InputStream inputStream) throws IOException {
+        byte[] vi = IV.toByteArray();
+        byte[] vi1 = null;
+
+        byte[] bytes = new byte[64];
+        int length = -1;
+        int totalLength = 0;
+        while ((length = inputStream.read(bytes)) != -1) {
+            totalLength += length;
+            if (length < 64) {
+                bytes = padding(Arrays.copyOfRange(bytes, 0, length), totalLength);
+            }
+            vi1 = CF(vi, bytes);
             vi = vi1;
         }
         return vi1;
@@ -219,7 +237,8 @@ public class SM3Util {
 
     public static String hashHex(InputStream inputStream) {
         try {
-            return hashHex(StreamTool.readInputStream2ByteArray(inputStream));
+            return SM3Util.byteArrayToHexString(SM3Util.hash(inputStream));
+            //return hashHex(StreamTool.readInputStream2ByteArray(inputStream));
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -268,5 +287,12 @@ public class SM3Util {
             return readInputStream2File(inStream, file);
 
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        String path = "C:\\Users\\Administrator\\Desktop\\1.png";
+        //String path = "F:\\data.7z";
+        FileInputStream inputStream = new FileInputStream(path);
+        System.out.println(SM3Util.hashHex(inputStream));
     }
 }
