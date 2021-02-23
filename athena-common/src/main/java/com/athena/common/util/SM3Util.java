@@ -110,7 +110,7 @@ public class SM3Util {
         int totalLength = 0;
         while ((length = inputStream.read(bytes)) != -1) {
             totalLength += length;
-            if (length < 64) {
+            if (inputStream.available() == 0) {
                 bytes = padding(Arrays.copyOfRange(bytes, 0, length), totalLength);
             }
             vi1 = CF(vi, bytes);
