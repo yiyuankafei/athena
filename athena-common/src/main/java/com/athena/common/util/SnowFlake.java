@@ -1,5 +1,9 @@
 package com.athena.common.util;
 
+import org.apache.commons.lang3.RandomUtils;
+
+import java.util.ArrayList;
+
 public class SnowFlake {
 
     /**
@@ -36,6 +40,7 @@ public class SnowFlake {
     private final static Integer SequenceBarrier = -1 ^ (-1 << SnowConfig.sequeueBits);
 
     private synchronized static Long nextId() {
+        new ArrayList<>();
         Long currentTime = System.currentTimeMillis();
         if (currentTime > lastTime) {
             sequence = 0;
@@ -58,4 +63,17 @@ public class SnowFlake {
                 | (MACHINE_ID << machineOffset)
                 | seq;
     }
+
+    public static void main(String[] args) {
+        while (true) {
+            Long id = nextId();
+            System.out.println(id);
+            try {
+                Thread.sleep(RandomUtils.nextInt(0,1000));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
