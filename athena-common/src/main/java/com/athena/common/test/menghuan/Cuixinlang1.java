@@ -42,7 +42,6 @@ public class Cuixinlang1 {
 
 
     public static void main(String[] args) throws Exception {
-        int a = MEMBER_COUNT;
         LinkedHashMap<Integer, Float> resultMap = new LinkedHashMap<>();
         //怪物血量从500开始，每次递增100，直到10000
         for (int i = HP_MIN; i <= HP_MAX; i = i + 100) {
