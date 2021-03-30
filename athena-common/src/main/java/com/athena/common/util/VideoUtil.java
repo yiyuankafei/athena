@@ -39,6 +39,7 @@ public class VideoUtil {
         FFmpegFrameGrabber ff = new FFmpegFrameGrabber(videofile);
         Java2DFrameConverter converter = new Java2DFrameConverter();
         ff.start();
+        System.out.println("总帧数：" + ff.getLengthInFrames());
         try {
             if (startFrame > ff.getLengthInFrames() & (startFrame + frameCount) > ff.getLengthInFrames()) {
                 throw new RuntimeException("THE VIDEO IS TOO SHORT!");

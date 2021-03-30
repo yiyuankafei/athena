@@ -7,11 +7,14 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.CategoryDataset;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class Cuixinlang2 {
+public class Cuixinlang3 {
 
     /**
      * 怪物数量
@@ -26,7 +29,7 @@ public class Cuixinlang2 {
     /**
      * 怪物血量区间-最高10000
      */
-    private  static final Integer HP_MAX = 10000;
+    private  static final Integer HP_MAX = 20000;
 
     /**
      * 须弥无催心浪伤害 2000
@@ -80,31 +83,6 @@ public class Cuixinlang2 {
                 System.out.println("正收益:" + item);
             }
         }
-        int a = 0;
-        int b = 0;
-        int c = 0;
-        float d = 0;
-        float e = 0;
-        Set<Integer> integers = resultMap.keySet();
-        for (Integer i : integers) {
-            if (resultMap.get(i) > 0) {
-                a ++;
-                d = d + resultMap.get(i);
-            } else if (resultMap.get(i) < 0) {
-                b ++;
-                e = e + resultMap.get(i);
-            } else {
-                c ++;
-            }
-        }
-
-        System.out.println("==============");
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
-        System.out.println("==============");
-        System.out.println(d);
-        System.out.println(e);
         CategoryDataset dataset = JFreeChat.createDataset(resultMap);
         // 步骤2：根据Dataset 生成JFreeChart对象，以及做相应的设置
         JFreeChart freeChart = JFreeChat.createChart(dataset);
@@ -184,7 +162,7 @@ public class Cuixinlang2 {
     }
 
     private static Integer getRealAtk (Random random, Integer normalAtk) {
-        Integer floatAtk = random.nextInt(150-56 + 1) + 56;
+        Integer floatAtk = random.nextInt(150 - 60 + 1) + 60;
         Integer realAtk = Math.round(normalAtk * ((float)floatAtk/100));
         return realAtk;
     }
