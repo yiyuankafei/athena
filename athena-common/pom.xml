@@ -166,6 +166,12 @@
 		  <version>1.0.19</version>
 	  </dependency>
 
+	  <dependency>
+		  <groupId>org.openjdk.jol</groupId>
+		  <artifactId>jol-core</artifactId>
+		  <version>0.10</version>
+	  </dependency>
+
   </dependencies>
   
 </project>
