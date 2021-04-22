@@ -11,5 +11,6 @@
   	<module>athena-io-bio</module>
   	<module>athena-io-nio</module>
   	<module>athena-io-aio</module>
+      <module>athena-io-netty</module>
   </modules>
 </project>
