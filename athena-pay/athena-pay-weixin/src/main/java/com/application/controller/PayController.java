@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.application.util.SignUtil;
+import com.application.util.XmlUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -134,6 +135,21 @@ public class PayController {
 		//查看支付状态，返回前台
 		Integer payStatus = 1;
 		return ResEnv.success(payStatus);
+	}
+
+	public static void main(String[] args) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("appid", "11");
+		map.put("mch_id", "22");
+		map.put("nonce_str", "A583E0098AEF1236C2910"); //随机字符串
+		map.put("out_trade_no", "202105100558096383");
+		String sign = SignUtil.generateSign(map, "33");
+		map.put("sign", sign);
+
+		String xml = XmlUtil.toXml(map);
+		String result = HttpClientUtil.doPostXml("https://api.mch.weixin.qq.com/pay/orderquery", xml);
+		System.out.println(result);
+
 	}
 
 }
