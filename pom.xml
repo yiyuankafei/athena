@@ -33,5 +33,6 @@
   	<module>athena-springcloud</module>
   	<module>athena-data</module>
   	<module>athena-config</module>
+  	<module>athena-leetcode</module>
   </modules>
 </project>
