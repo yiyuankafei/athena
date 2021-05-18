@@ -28,6 +28,11 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.yiyuankafei.base</groupId>
+            <artifactId>athena-mq-kafka-common</artifactId>
+        </dependency>
+
     </dependencies>
 
 

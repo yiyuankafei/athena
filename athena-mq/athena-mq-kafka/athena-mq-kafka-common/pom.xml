@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>athena-mq-kafka-provider</artifactId>
+    <artifactId>athena-mq-kafka-common</artifactId>
 
     <dependencies>
 
@@ -19,18 +19,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.yiyuankafei.base</groupId>
-            <artifactId>athena-mq-kafka-common</artifactId>
         </dependency>
 
         <dependency>
