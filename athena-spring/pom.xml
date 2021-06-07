@@ -32,7 +32,8 @@
   </dependencies>
   
   <modules>
-  	<module>athena-spring-circul</module>
+  	  <module>athena-spring-circul</module>
       <module>athena-spring-aop</module>
+      <module>athena-spring-context</module>
   </modules>
 </project>
