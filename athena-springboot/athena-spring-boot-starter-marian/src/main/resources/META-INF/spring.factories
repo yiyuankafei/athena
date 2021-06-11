@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=athena.springboot.starter.marian.config.AutoConfig

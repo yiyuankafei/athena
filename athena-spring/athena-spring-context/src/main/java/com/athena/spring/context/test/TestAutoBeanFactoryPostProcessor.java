@@ -4,6 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class TestAutoBeanFactoryPostProcessor implements BeanFactoryPostProcesso
          */
         GenericBeanDefinition abd = (GenericBeanDefinition)beanFactory.getBeanDefinition("a");
         /**
-         * 设置A类的自动装配类型为自动装配，被自动装配的属性，需要有set方法
+         * 设置A类的自动装配类型为自动装配，被自动装配的属性，需要有set方法，或者构造方法
          */
         abd.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 

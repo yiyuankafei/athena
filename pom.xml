@@ -17,22 +17,23 @@
   
   
   <modules>
-  	<module>athena-socket</module>
-  	<module>athena-io</module>
-  	<module>athena-mq</module>
-  	<module>athena-thirdpart</module>
-  	<module>athena-oauth</module>
-  	<module>athena-pay</module>
-  	<module>athena-common</module>
-  	<module>athena-rpc</module>
-  	<module>athena-cipher</module>
-  	<module>athena-job</module>
-  	<module>athena-docker</module>
-  	<module>athena-spring</module>
-  	<module>athena-search</module>
-  	<module>athena-springcloud</module>
-  	<module>athena-data</module>
-  	<module>athena-config</module>
-  	<module>athena-leetcode</module>
+		<module>athena-socket</module>
+		<module>athena-io</module>
+		<module>athena-mq</module>
+		<module>athena-thirdpart</module>
+		<module>athena-oauth</module>
+		<module>athena-pay</module>
+		<module>athena-common</module>
+		<module>athena-rpc</module>
+		<module>athena-cipher</module>
+		<module>athena-job</module>
+		<module>athena-docker</module>
+		<module>athena-spring</module>
+		<module>athena-search</module>
+		<module>athena-springcloud</module>
+		<module>athena-data</module>
+		<module>athena-config</module>
+		<module>athena-leetcode</module>
+	  	<module>athena-springboot</module>
   </modules>
 </project>
