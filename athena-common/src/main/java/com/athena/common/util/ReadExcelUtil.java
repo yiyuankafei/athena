@@ -1,20 +1,18 @@
 package com.athena.common.util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.util.Iterator;
 
 public class ReadExcelUtil {
 
     public static void main(String[] args) throws Exception {
 
-        String filePath = "C:\\Users\\Administrator\\Desktop\\0617.xlsx";
+        String filePath = "C:\\Users\\Administrator\\Desktop\\美梦成真自有曲库及MV 清单0617.xlsx";
         FileInputStream is = new FileInputStream(filePath);
         Workbook workbook = null;
         if (filePath.endsWith("xlsx")) {
