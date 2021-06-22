@@ -28,8 +28,10 @@
     </dependencyManagement>
   
   <modules>
-  	<module>athena-springcloud-eureka</module>
-  	<module>athena-springcloud-feign</module>
-  	<module>athena-springcloud-zuul</module>
+  	  <module>athena-springcloud-eureka</module>
+  	  <module>athena-springcloud-feign</module>
+  	  <module>athena-springcloud-zuul</module>
+      <module>athena-springcloud-marian-user</module>
+      <module>athena-springcloud-marian-work</module>
   </modules>
 </project>
