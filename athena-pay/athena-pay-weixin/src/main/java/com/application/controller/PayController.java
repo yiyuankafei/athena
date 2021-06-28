@@ -139,11 +139,12 @@ public class PayController {
 
 	public static void main(String[] args) throws Exception{
 		Map<String, Object> map = new HashMap<>();
-		map.put("appid", "11");
-		map.put("mch_id", "22");
+		map.put("appid", "");
+		map.put("mch_id", "");
 		map.put("nonce_str", "A583E0098AEF1236C2910"); //随机字符串
-		map.put("out_trade_no", "202105100558096383");
-		String sign = SignUtil.generateSign(map, "33");
+		map.put("out_trade_no", "202106230750359290");
+		String sign = SignUtil.generateSign(map, "");
+		System.out.println("sign:" + sign);
 		map.put("sign", sign);
 
 		String xml = XmlUtil.toXml(map);

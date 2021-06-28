@@ -3,12 +3,15 @@ package com.application.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.alipay.api.CertAlipayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +23,6 @@ import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.athena.common.response.ResEnv;
 
 @Controller
 public class PayController {
@@ -218,4 +220,33 @@ public class PayController {
 		mav.setViewName("returnUrl");
 		return mav;
     }
+
+	public static void main(String[] args) throws Exception {
+		//==========================
+		CertAlipayRequest certAlipayRequest = new CertAlipayRequest();
+		certAlipayRequest.setServerUrl(ALI_WEB);
+		certAlipayRequest.setAppId("");
+		certAlipayRequest.setPrivateKey("");
+		certAlipayRequest.setFormat("json");
+		certAlipayRequest.setCharset("UTF-8");
+		certAlipayRequest.setSignType("RSA2");
+		certAlipayRequest.setCertPath("D:\\aliKey\\appCertPublicKey_2021001185601610.crt");
+		certAlipayRequest.setAlipayPublicCertPath("D:\\aliKey\\alipayCertPublicKey_RSA2_20200814.crt");
+		certAlipayRequest.setRootCertPath("D:\\aliKey\\alipayRootCert_202008014.crt");
+
+		AlipayClient client = new DefaultAlipayClient(certAlipayRequest);
+		//==========================
+
+		AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+		request.setBizContent("{" +
+				"\"out_trade_no\":\"202106230750359290\"" +
+				//"\"trade_no\":\"2014112611001004680 073956707\"," +
+				//"\"org_pid\":\"2088101117952222\"," +
+				//"      \"query_options\":[" +
+				//"        \"trade_settle_info\"" +
+				//"      ]" +
+				"  }");
+		AlipayTradeQueryResponse response = client.certificateExecute(request);
+		System.out.println(JSON.toJSONString(response));
+	}
 }
