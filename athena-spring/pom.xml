@@ -36,5 +36,6 @@
       <module>athena-spring-aop</module>
       <module>athena-spring-context</module>
       <module>athena-spring-mvc</module>
+      <module>athena-spring-asm</module>
   </modules>
 </project>
