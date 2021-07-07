@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Component
 @Order
 @Service
-@Repository
 public class TargetClass1 {
 
     static {
