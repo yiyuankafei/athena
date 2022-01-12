@@ -10,6 +10,8 @@
   <packaging>pom</packaging>
   
   <modules>
-  	<module>athena-data-es</module>
+  	  <module>athena-data-es</module>
+      <module>spring-data-jpa</module>
+      <module>athena-data-redisson</module>
   </modules>
 </project>

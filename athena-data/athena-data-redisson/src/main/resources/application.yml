@@ -1,0 +1,10 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: athena-data-redisson
+  redis:
+    host: 47.92.209.37
+    #password: redis
+    port: 6388
+    password: yiyuankafei
