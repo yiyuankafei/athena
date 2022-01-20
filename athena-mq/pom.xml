@@ -26,5 +26,6 @@
       <module>athena-mq-rocket</module>
       <module>athena-mq-active</module>
       <module>athena-mq-kafka</module>
+      <module>athena-mq-ons</module>
   </modules>
 </project>
